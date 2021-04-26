@@ -1,11 +1,121 @@
 from PyQt5 import QtWidgets, QtGui, QtCore, QtSql
-from geophoto import Ui_MainWindow
+from PyQt5.QtGui import QPixmap
 from PIL import Image, ExifTags
 from PIL.ExifTags import TAGS, GPSTAGS
 import sys
 import os
 import re
-import spatialite
+import sqlite3
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QInputDialog, QPushButton, QFileDialog, QLineEdit
+from PyQt5.QtGui import QPixmap
+#import spatialite
+
+
+class examplePopup(QWidget):
+    def __init__(self, name):
+        super().__init__()
+        self.name = name
+        self.initUI()
+
+    def initUI(self):
+        lblName = QLabel(self.name, self)
+
+class ExamplePopup(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        self.le = QLineEdit(self)
+        self.le.resize(150, 20)
+        self.le.move(10, 10)
+        self.le2 = QLineEdit(self)
+        self.le2.resize(150, 20)
+        self.le2.move(10, 30)
+        self.le3 = QLineEdit(self)
+        self.le3.resize(150, 20)
+        self.le3.move(10, 50)
+        self.le4 = QLineEdit(self)
+        self.le4.resize(150, 20)
+        self.le4.move(10, 70)
+        self.le5 = QLineEdit(self)
+        self.le5.resize(150, 20)
+        self.le5.move(10, 90)
+        self.le6 = QLineEdit(self)
+        self.le6.resize(150, 20)
+        self.le6.move(10, 110)
+        self.le7 = QLineEdit(self)
+        self.le7.resize(150, 20)
+        self.le7.move(10, 130)
+        self.le8 = QLineEdit(self)
+        self.le8.resize(150, 20)
+        self.le8.move(10, 150)
+        self.le9 = QLineEdit(self)
+        self.le9.resize(150, 20)
+        self.le9.move(10, 170)
+        self.le10 = QLineEdit(self)
+        self.le10.resize(150, 20)
+        self.le10.move(10, 190)
+        self.le.setText("ID")
+        self.le2.setText("NAMETM")
+        self.le3.setText("DIVISION")
+        self.le4.setText("IKLASSVOLTAGED")
+        self.le5.setText("PARTVL")
+        self.le6.setText("NAMEVL")
+        self.le7.setText("MANAGE")
+        self.le8.setText("TYPETM")
+        self.le9.setText("DATEEDIT")
+        self.le10.setText("KODTM")
+        self.btn = QPushButton(self)
+        self.btn.resize(100, 20)
+        self.btn.move(10, 230)
+        self.btn.setText("Добавить")
+
+
+class Example(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        self.x = 0
+        self.setGeometry(300, 300, 700, 700)
+        self.setWindowTitle('Фокусы с арифметикой')
+        self.lbl = QLabel(self)
+        self.lbl.move(50, 35)
+        self.lbl.resize(600, 600)
+        self.lbl1 = QLabel(self)
+        self.lbl1.resize(1000, 20)
+        self.lbl1.move(0, 20)
+        self.btn = QPushButton(self)
+        self.btn.move(20, 0)
+        self.btn.resize(20, 20)
+        self.btn.setText("->")
+        self.btn.clicked.connect(self.run)
+        self.btn1 = QPushButton(self)
+        self.btn1.resize(20, 20)
+        self.btn1.setText("<-")
+        self.btn1.clicked.connect(self.run)
+        self.lst = []
+        self.lst1 = ["Указать файл db",
+                     "Выбор изображения",
+                     "Указать директорию изображений",
+                     "Выбрать силу тока показываемых опор",
+                     "Из таблицы ближайших опор надо указать то как вы хотите назвать свою опору, нажать кнопку “переименовать”",
+                     "Так же можно указать до какого расстояния будет показываться опоры, сколько будет показываться ближайших опор."]
+        for i in range(1, 7):
+            self.lst.append(f"Фото{str(i)}.jpg")
+        self.lbl.setPixmap(QPixmap(self.lst[self.x]))
+        self.lbl1.setText(self.lst1[self.x])
+        
+    def run(self):
+        if self.x < 5 and self.sender().text() == "->":
+            self.x += 1
+        if self.x > 0 and self.sender().text() == "<-":
+            self.x -= 1
+        self.lbl.setPixmap(QPixmap(self.lst[self.x]))
+        self.lbl1.setText(self.lst1[self.x])
 
 class mywindow(QtWidgets.QMainWindow):
     def __init__(self):
