@@ -1,6 +1,6 @@
 import sqlite3
 import spatialite
-import json
+import json #
 db = sqlite3.connect("db1.sqlite")
 db.enable_load_extension(True)
 db.load_extension('mod_spatialite')
